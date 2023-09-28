@@ -8,7 +8,7 @@
   ignore_errors: True  
   tags: jenkins
 
-- name: Remove cassandra service into systemd and reloading daemon
+- name: Remove jenkins service into systemd and reloading daemon
   file: 
     path: /etc/systemd/system/cassandra.service 
     state: absent
