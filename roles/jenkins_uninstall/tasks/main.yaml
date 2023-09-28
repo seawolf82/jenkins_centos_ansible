@@ -20,6 +20,25 @@
     state: absent
   tags: jenkins
 
+- name: Remove openjdk17
+  dnf:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - java-17-openjdk
+    - java-17-openjdk-devel
+    state: absent
+  when: (ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == "8") or (ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == "9") 
+  tags: jenkins
+
+
+- name: Remove yum-utils  
+  dnf:
+    name: yum-utils
+    state: absent
+  when: (ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == "8") or (ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == "9") 
+  tags: jenkins
+
 
 - name: Removing port 8080/tcp for jenkins
   firewalld:
