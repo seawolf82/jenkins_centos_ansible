@@ -8,12 +8,6 @@
   ignore_errors: True  
   tags: jenkins
 
-- name: Remove jenkins service into systemd and reloading daemon
-  file: 
-    path: /etc/systemd/system/jenkins.service 
-    state: absent
-  tags: jenkins
-
 - name: Remove jenkins
   dnf:
     name: jenkins
