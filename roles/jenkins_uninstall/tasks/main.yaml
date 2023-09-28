@@ -1,0 +1,36 @@
+
+- name: Disable jenkins at boot and stopped service
+  systemd:
+    name: jenkins.service
+    state: stopped
+    enabled: false
+    daemon_reload: yes
+  ignore_errors: True  
+  tags: jenkins
+
+- name: Remove cassandra service into systemd and reloading daemon
+  file: 
+    path: /etc/systemd/system/cassandra.service 
+    state: absent
+  tags: jenkins
+
+- name: Remove jenkins
+  dnf:
+    name: jenkins
+    state: absent
+  tags: jenkins
+
+- name: Remove jenkins repository
+  file: 
+    path: /etc/yum.repos.d/jenkins.repo 
+    state: absent
+  tags: cassandra
+
+
+- name: Removing port 8080/tcp for jenkins
+  firewalld:
+    port: 8080/tcp
+    permanent: true
+    immediate: true
+    state: disabled
+  tags: jenkins

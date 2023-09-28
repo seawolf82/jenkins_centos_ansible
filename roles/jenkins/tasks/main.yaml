@@ -1,0 +1,70 @@
+- name: Install openjdk11
+  dnf:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - java-17-openjdk
+    - java-17-openjdk-devel
+    state: present
+  when: (ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == "8") or (ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == "9") 
+  tags: jenkins
+
+
+- name: Install yum-utils  
+  dnf:
+    name: yum-utils
+    state: present
+  when: (ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == "8") or (ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == "9") 
+  tags: jenkins
+
+
+- name: Install repository for jenkins
+  copy:
+    src: jenkins.repo
+    dest: /etc/yum.repos.d/
+    owner: root
+    group: root
+    mode: 0644
+  tags: jenkins
+
+
+- name: Import jenkins key
+  command: rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+  tags: jenkins
+
+
+- name: Install jenkins  
+  dnf:
+    name: jenkins
+    state: present
+  when: (ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == "8") or (ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == "9") 
+  tags: jenkins
+
+
+- name: Reload systemd
+  systemd: daemon_reload=yes
+  tags: jenkins
+
+- name: Enable jenkins at boot and start
+  systemd:
+    name: jenkins.service
+    state: started
+    enabled: True
+  tags: jenkins
+
+
+- name: Adding port 8080/tcp for jenkins
+  firewalld:
+    port: 8080/tcp
+    permanent: true
+    immediate: true
+    state: enabled
+  tags: jenkins
+
+
+
+
+
+
+
+

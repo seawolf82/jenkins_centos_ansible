@@ -1,0 +1,11 @@
+
+- hosts: all
+  remote_user: root
+  roles:
+    - common
+
+- hosts: jenkins-servers
+  remote_user: root
+  roles:
+    - jenkins
+
