@@ -1,4 +1,4 @@
-- name: Install openjdk11
+- name: Install openjdk17
   dnf:
     name: "{{ packages }}"
   vars:
