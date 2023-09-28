@@ -18,7 +18,7 @@
   file: 
     path: /etc/yum.repos.d/jenkins.repo 
     state: absent
-  tags: cassandra
+  tags: jenkins
 
 
 - name: Removing port 8080/tcp for jenkins
