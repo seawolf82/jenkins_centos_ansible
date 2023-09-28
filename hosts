@@ -1,5 +1,5 @@
 [all]
 192.168.1.210
 
-[cassandra-servers]
+[jenkins-servers]
 192.168.1.210
